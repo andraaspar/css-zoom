@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>zoom</title>
+		<style>
+			html,
+			body
+			{
+				margin: 0;
+				padding: 0;
+				border: 0;
+				position: relative;
+				overflow: hidden;
+				width: 100%;
+				height: 100%;
+			}
+			#offsetter
+			{
+				position: relative;
+			}
+			#cropper
+			{
+				position: relative;
+				overflow: hidden;
+			}
+			#space
+			{
+				background: #333;
+				position: relative;
+				overflow: visible;
+				width: 1024px;
+				height: 768px;
+			}
+			#scalable
+			{
+				background: #666;
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				overflow: auto;
+			}
+			#scalable:before,
+			#scalable:after
+			{
+				content: '\a0';
+				display: block;
+				overflow: hidden;
+				height: 0;
+			}
+		</style>
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script>
+			$(function() {
+				var offsetter = $('#offsetter');
+				var cropper = $('#cropper');
+				var space = $('#space');
+				var scalable = $('#scalable');
+				
+				var hasTransform = cropper.css('transform') != null;
+				
+				if (hasTransform) {
+					scalable.css('transform-origin', 'top left');
+				}
+				
+				var lastScale = 1;
+				
+				var fixScale = function() {
+					var width = space.width();
+					var height = space.height();
+					
+					var win = $(window);
+					var winWidth = win.width();
+					var winHeight = win.height();
+					
+					var scale = Math.min(winWidth / width, winHeight / height);
+					height = Math.floor(height * scale);
+					width = Math.floor(width * scale);
+					
+					if (scale != lastScale) {
+						lastScale = scale;
+						
+						if (hasTransform) {
+							scalable.css('transform', 'scale(' + scale + ')');
+							
+							cropper.width(width);
+							cropper.height(height);
+						} else {
+							cropper.css('zoom', scale);
+						}
+					}
+					offsetter.css('left', Math.max(0, Math.floor((winWidth - width) / 2)));
+					offsetter.css('top', Math.max(0, Math.floor((winHeight - height) / 2)));
+				};
+				
+				fixScale();
+				$(window).on('resize', fixScale);
+			});
+		</script>
+	</head>
+	<body>
+		<!--<p>I am above.</p>-->
+		<div id="offsetter">
+			<div id="cropper">
+				<div id="space">
+					<div id="scalable">
+						<h1 id="a">Labore temporibus amet adipisci, iste eius tenetur distinctio quis esse ducimus</h1>
+						<hr style="overflow: hidden; height: 0; border: 0; border-top: 1px solid black;"/>
+						<p>Repellendus facilis minus a libero praesentium animi cupiditate est velit debitis rerum alias, reprehenderit illo, odit architecto velit quas. Laudantium nam repellat nesciunt animi ipsa qui eius aut hic delectus. Odio repudiandae totam laboriosam. Similique rerum – et temporibus cumque. Earum placeat, obcaecati pariatur-accusantium animi. Non delectus exercitationem, aspernatur veniam eius fuga qui recusandae assumenda Id reiciendis eveniet laboriosam provident. Sunt earum velit mollitia numquam – laudantium commodi deleniti exercitationem eos dicta architecto aliquid. In ab soluta, aspernatur inventore-veritatis amet itaque omnis. Pariatur numquam hic sapiente, eos illo. Repellat ex corporis omnis.</p>
+						<p>Quaerat illo ex iste, ea odit nihil, quia saepe – nostrum magnam-harum odio ut vel sit recusandae quis. Consectetur quidem, aliquid commodi ut cumque veritatis autem ut Enim aliquam, magnam fugiat dicta laudantium possimus sequi impedit placeat similique alias harum animi laudantium ipsa. Ratione dignissimos, numquam omnis-recusandae Nihil facilis tempora delectus quidem perferendis aperiam – quas necessitatibus hic et velit, pariatur amet-ut possimus. Provident a provident ea sapiente tenetur maiores. Accusamus iste-accusamus animi tenetur incidunt non amet expedita, placeat eaque rem nesciunt deleniti. Non nostrum – non porro vitae.</p>
+						<p>Adipisci possimus magnam, sunt iusto quam voluptatum pariatur sequi cupiditate blanditiis qui maiores dicta nemo amet. Excepturi maiores ad in esse explicabo facere sed blanditiis totam est placeat, eum nesciunt – totam distinctio Ipsam, debitis modi distinctio est aspernatur.</p>
+						<p>Consectetur eaque inventore fuga inventore accusamus quia repellat aliquam aut blanditiis ipsa veritatis impedit reprehenderit iste. Alias quos commodi-libero – deserunt fugit atque deleniti magnam. Sit vero, tempora magni et nesciunt id maiores. Cum consectetur pariatur cupiditate culpa sapiente amet quas in nihil, possimus id eius perferendis veniam quis mollitia reprehenderit, laboriosam officiis aut sit commodi. Perspiciatis sed asperiores excepturi. Ipsa fuga quam incidunt-ducimus odio non reiciendis – odio repudiandae. Velit minima hic.</p>
+						<p>Unde ducimus ipsa harum officiis sequi inventore nostrum quibusdam a repellat totam quas harum ut nihil maxime neque veniam dicta quo eos commodi. Aperiam quisquam, perferendis ipsam inventore quasi provident perferendis-incidunt laboriosam – repudiandae accusamus assumenda incidunt impedit ipsa reprehenderit porro saepe suscipit quia esse perspiciatis, delectus praesentium. Culpa ut magni, earum debitis – similique officiis ut ea pariatur. Ab harum, blanditiis facere-in quia culpa. Eius debitis, officiis porro omnis debitis enim-provident reiciendis id Magni, natus magni quia laudantium et similique quibusdam non quae. Exercitationem animi-quam ut ipsum – ullam enim architecto delectus, libero recusandae provident soluta dignissimos.</p>
+						<p><a href="#a">Foobarbaz</a></p>
+						<h1>Labore temporibus amet adipisci, iste eius tenetur distinctio quis esse ducimus</h1>
+						<p>Repellendus facilis minus a libero praesentium animi cupiditate est velit debitis rerum alias, reprehenderit illo, odit architecto velit quas. Laudantium nam repellat nesciunt animi ipsa qui eius aut hic delectus. Odio repudiandae totam laboriosam. Similique rerum – et temporibus cumque. Earum placeat, obcaecati pariatur-accusantium animi. Non delectus exercitationem, aspernatur veniam eius fuga qui recusandae assumenda Id reiciendis eveniet laboriosam provident. Sunt earum velit mollitia numquam – laudantium commodi deleniti exercitationem eos dicta architecto aliquid. In ab soluta, aspernatur inventore-veritatis amet itaque omnis. Pariatur numquam hic sapiente, eos illo. Repellat ex corporis omnis.</p>
+						<p>Quaerat illo ex iste, ea odit nihil, quia saepe – nostrum magnam-harum odio ut vel sit recusandae quis. Consectetur quidem, aliquid commodi ut cumque veritatis autem ut Enim aliquam, magnam fugiat dicta laudantium possimus sequi impedit placeat similique alias harum animi laudantium ipsa. Ratione dignissimos, numquam omnis-recusandae Nihil facilis tempora delectus quidem perferendis aperiam – quas necessitatibus hic et velit, pariatur amet-ut possimus. Provident a provident ea sapiente tenetur maiores. Accusamus iste-accusamus animi tenetur incidunt non amet expedita, placeat eaque rem nesciunt deleniti. Non nostrum – non porro vitae.</p>
+						<p>Adipisci possimus magnam, sunt iusto quam voluptatum pariatur sequi cupiditate blanditiis qui maiores dicta nemo amet. Excepturi maiores ad in esse explicabo facere sed blanditiis totam est placeat, eum nesciunt – totam distinctio Ipsam, debitis modi distinctio est aspernatur.</p>
+						<p>Consectetur eaque inventore fuga inventore accusamus quia repellat aliquam aut blanditiis ipsa veritatis impedit reprehenderit iste. Alias quos commodi-libero – deserunt fugit atque deleniti magnam. Sit vero, tempora magni et nesciunt id maiores. Cum consectetur pariatur cupiditate culpa sapiente amet quas in nihil, possimus id eius perferendis veniam quis mollitia reprehenderit, laboriosam officiis aut sit commodi. Perspiciatis sed asperiores excepturi. Ipsa fuga quam incidunt-ducimus odio non reiciendis – odio repudiandae. Velit minima hic.</p>
+						<p>Unde ducimus ipsa harum officiis sequi inventore nostrum quibusdam a repellat totam quas harum ut nihil maxime neque veniam dicta quo eos commodi. Aperiam quisquam, perferendis ipsam inventore quasi provident perferendis-incidunt laboriosam – repudiandae accusamus assumenda incidunt impedit ipsa reprehenderit porro saepe suscipit quia esse perspiciatis, delectus praesentium. Culpa ut magni, earum debitis – similique officiis ut ea pariatur. Ab harum, blanditiis facere-in quia culpa. Eius debitis, officiis porro omnis debitis enim-provident reiciendis id Magni, natus magni quia laudantium et similique quibusdam non quae. Exercitationem animi-quam ut ipsum – ullam enim architecto delectus, libero recusandae provident soluta dignissimos.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--<p>I am below.</p>-->
+	</body>
+</html>
